@@ -1,0 +1,42 @@
+package com.example.InventoryManagement.Domain.Entities;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "Products")
+public class ProductEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private Double unitPrice;
+    private Integer quantity;
+    private String category;
+    private String imagePath;
+    private Double purchasePrice;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "warehouse_id")
+    private WarehouseEntity warehouse;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "supplier_id")
+    private SupplierEntity supplier;
+
+    @Transient
+    private Double averageRating;
+    
+    @Transient
+    private List<RatingEntity> ratings;
+}
