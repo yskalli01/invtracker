@@ -26,7 +26,7 @@ The Inventory Management System, Invtracker, offers a range of endpoints that en
 
 ## 🚀 Technologies used
 ![spring-boot](https://github.com/user-attachments/assets/c388bb4f-739c-4483-9935-f558f9347b47)
-![react](https://github.com/user-attachments/assets/3bfe09f0-2372-40f0-98ec-0db5b8ee7d7a)
+![react](https://github.com/user-attachments/assets/58af1503-42ef-4011-864e-474c7677bb27)
 ![postgresql](https://github.com/user-attachments/assets/591c1875-8700-4d3c-8131-dd4d81cd9837)
 ![Docker](https://github.com/user-attachments/assets/d4331366-3ace-4df1-9c4d-36c47fe9d093)
 
