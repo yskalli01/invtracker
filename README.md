@@ -4,12 +4,12 @@ The Inventory Management System, Invtracker, offers a range of endpoints that en
 
 ## 🚀 Main Features of the Application
 
-### ✅ RESTful APIs (Spring Boot) for managing:
-- Warehouses  
-- Suppliers  
-- Users  
-- Products  
-- Customer orders related to stock  
+### ✅ RESTful APIs (Spring Boot) for managing, filtering and extracting:
+- **Warehouses** – Includes a map interface to select and add warehouse locations with coordinates  
+- **Suppliers** – Full CRUD operations  
+- **Users** –   
+- **Products** – Manage inventory details and availability  
+- **Customer Orders** – Handle product orders with the ability to confirm or cancel requests 
 
 ### 📊 Dynamic Dashboard
 - Displays over 10 KPIs related to stock status  
