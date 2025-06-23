@@ -24,7 +24,7 @@ The Inventory Management System, Invtracker, offers a range of endpoints that en
 - Product reviews and rating system  
 
 
-## 🚀 Technologies used
+## 💻 Technologies used
 ![spring-boot](https://github.com/user-attachments/assets/c388bb4f-739c-4483-9935-f558f9347b47)
 ![react](https://github.com/user-attachments/assets/58af1503-42ef-4011-864e-474c7677bb27)
 ![postgresql](https://github.com/user-attachments/assets/591c1875-8700-4d3c-8131-dd4d81cd9837)
@@ -32,6 +32,9 @@ The Inventory Management System, Invtracker, offers a range of endpoints that en
 ![postman](https://github.com/user-attachments/assets/d9cec757-8dbf-4f16-bd9c-4c75d2d2261c)
 ![maven](https://github.com/user-attachments/assets/6957143d-14b5-49eb-97ef-6c660a4fad86)
 
+
+## 📸 Screenshots
+![project](https://github.com/user-attachments/assets/90932d68-774e-4eac-bad1-189dffcdab01)
 
 
 
