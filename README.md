@@ -34,7 +34,8 @@ The Inventory Management System, Invtracker, offers a range of endpoints that en
 
 
 ## 📸 Screenshots
-![project](https://github.com/user-attachments/assets/3c5b461b-be89-414c-a8a4-f5ce04969792)
+![project](https://github.com/user-attachments/assets/87d619c1-6863-44e1-854c-23fe094f7195)
+
 
 
 
