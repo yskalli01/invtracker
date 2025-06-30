@@ -31,7 +31,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.UUID;
+import java.util.Date;
+
+
+
 
 @RestController
 @RequestMapping(path = "/products")
@@ -115,18 +120,11 @@ public class ProductController extends GenericController<ProductEntity, ProductD
         if (image != null && !image.isEmpty()) {
             String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
             Path imagePath = Paths.get("uploads", fileName);
-    
-            // Create the directory if it doesn't exist
             Files.createDirectories(imagePath.getParent());
-    
-            // Save the file
             Files.copy(image.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
-    
-            // Set path on DTO
             productDTO.setImagePath("/uploads/" + fileName);
         }
 
-        // System.out.println("The product DTO " + productDTO);
         
         // Map and save the product
         ProductEntity productEntity = mapper.map(productDTO, ProductEntity.class);
@@ -158,17 +156,11 @@ public class ProductController extends GenericController<ProductEntity, ProductD
             productDTO.setImagePath("/uploads/" + fileName);
         }
 
-        // Convert DTO to entity
         ProductEntity productEntity = mapper.map(productDTO, ProductEntity.class);
 
-        // Perform update via service
         ProductEntity updatedProduct = productService.save(productEntity);
 
-        // System.out.println("The updated product " + updatedProduct);
-
         ProductDTO updatedProductDTO = mapper.map(updatedProduct, ProductDTO.class);
-
-        // System.out.println("The updated product DTO " + updatedProductDTO);
 
         // Return updated DTO or entity
         return ResponseEntity.ok(updatedProductDTO);
@@ -180,10 +172,7 @@ public class ProductController extends GenericController<ProductEntity, ProductD
     public ResponseEntity<?> getImage(@PathVariable String filename) {
         try {
             Path filePath = Paths.get("uploads").resolve(filename).normalize();
-            // System.out.println("Saving image to: " + filePath.toAbsolutePath());
-            // System.out.println(filePath);
             Resource resource = new UrlResource(filePath.toUri());
-            // System.out.println(resource);
 
             // If the file doesn't exist or is not readable, return an empty 200 OK with no body
             if (!resource.exists() || !resource.isReadable()) {
@@ -207,20 +196,43 @@ public class ProductController extends GenericController<ProductEntity, ProductD
         }
     }
 
-    @GetMapping("/quantity")
-    public ResponseEntity<?> findByQuantityBetweenFlexible(
+    // @GetMapping("/quantity")
+    // public ResponseEntity<?> findByQuantityBetweenFlexible(
+    //         @RequestParam(required = false, defaultValue = "0") Integer min,
+    //         @RequestParam(required = false) Integer max
+    // ) {
+    //     Integer productCount = productService.findByQuantityBetweenFlexible(min, max);
+    //     return ResponseEntity.ok(productCount);
+    // }
+
+
+//     @GetMapping("/revision/{id}")
+//     public ResponseEntity<?> getProductRevisions(@PathVariable("id") Long productId){
+//         return ResponseEntity.ok(productService.getProductRevisions(productId));
+//     }
+
+//    @GetMapping("/revision/{date}/{id}")
+//    public ResponseEntity<?> getProductRevisions(@PathVariable("id") Long productId, @PathVariable("date") LocalDate date){
+//        return ResponseEntity.ok(productService.getProductRevisionForWholeDate(productId,date));
+//    }
+
+
+   @GetMapping("/values")
+   public ResponseEntity<?> getMonthlyTotalPriceOfAllProducts() {
+       return ResponseEntity.ok(productService.getMonthlyTotalPriceOfAllProducts());
+   }
+   
+   @GetMapping("/quantities")
+    public ResponseEntity<?> getMonthlyCountProductByQuantityBetween(
             @RequestParam(required = false, defaultValue = "0") Integer min,
             @RequestParam(required = false) Integer max
     ) {
-        Integer productCount = productService.findByQuantityBetweenFlexible(min, max);
-        return ResponseEntity.ok(productCount);
-    }
-
-    @GetMapping("/value")
-    public ResponseEntity<?> getPriceOfAllProducts() {
-        Double overallValue = productService.getPriceOfAllProducts();
-        return ResponseEntity.ok(overallValue);
-    }
-
+        return ResponseEntity.ok(productService.getMonthlyCountProductByQuantityBetween(min,max));
+   }
+   
+   @GetMapping("/category")
+    public ResponseEntity<?> getProductsByCategory() {
+        return ResponseEntity.ok(productService.getProductsByCategory());
+   }
 
 }

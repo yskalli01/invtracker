@@ -26,8 +26,8 @@ public class WarehouseController extends GenericController<WarehouseEntity, Ware
     }
 
     @GetMapping(path = "/util")
-    public ResponseEntity<?> getWarehouseUtilisation(){
-        return ResponseEntity.ok(warehouseService.getWarehouseUtilisation());
+    public ResponseEntity<?> getMonthlyWarehouseUtilisation(){
+        return ResponseEntity.ok(warehouseService.getMonthlyWarehouseUtilisation());
     }
 
     @Override

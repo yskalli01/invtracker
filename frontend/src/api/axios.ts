@@ -1,5 +1,6 @@
 // axios.ts
 import Axios from 'axios';
+
 import { handleAxiosErrorInterceptor } from 'src/utils/error-handler';
 
 const axios = Axios.create({

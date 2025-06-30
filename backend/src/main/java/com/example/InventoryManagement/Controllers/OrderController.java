@@ -12,13 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping(path = "/orders")
 public class OrderController extends GenericController<OrderEntity, OrderDTO, Long> {
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private ModelMapper mapper;
     @Autowired
     private OrderMapper orderMapper;
 
@@ -52,8 +51,34 @@ public class OrderController extends GenericController<OrderEntity, OrderDTO, Lo
     }
 
     @GetMapping("/earnings")
-    public ResponseEntity<?> getOverallEarning(){
-        return ResponseEntity.ok(orderService.getOverallEarning());
+    public ResponseEntity<?> getMonthlyOverallEarning(){
+        return ResponseEntity.ok(orderService.getMonthlyOverallEarning());
     }
+
+    @GetMapping("/monthly")
+    public ResponseEntity<?> getMonthlyOrders() {
+        return ResponseEntity.ok(orderService.getMonthlyOrders());
+    }
+
+    @GetMapping("/monthly/{id}/{status}")
+    public ResponseEntity<?> getMonthlyOrdersByUserId(@PathVariable("id") Long id, @PathVariable("status") String status) {
+        return ResponseEntity.ok(orderService.getMonthlyOrdersByUserId(id,status));
+    }
+
+    @GetMapping("/cost/{id}")
+    public ResponseEntity<?> getMonthlyOrdersCostByUserId(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(orderService.getMonthlyOrdersCostByUserId(id));
+    }
+
+    @GetMapping("/countries")
+    public ResponseEntity<?> getOrdersByCountry() {
+        return ResponseEntity.ok(orderService.getOrdersByCountry());
+    }
+
+    @GetMapping("/categories/{id}") 
+    public ResponseEntity<?> getProductsByCategory(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(orderService.getProductsByCategory(id));
+    }
+
 
 }

@@ -1,4 +1,5 @@
 import 'src/global.css';
+import 'src/App.css';
 
 import { useEffect } from 'react';
 
@@ -8,18 +9,26 @@ import { ThemeProvider } from 'src/theme/theme-provider';
 // ----------------------------------------------------------------------
 
 type AppProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function App({ children }: AppProps) {
   useScrollToTop();
 
-  
+  // useEffect(()=>{
+  //   const start = performance.now();
+  //   return(()=>{
+  //     const end = performance.now();
+  //     console.log(`App took ${end - start}ms`)
+  //   })
+  // },[])
 
   return (
-    <ThemeProvider>
+    <>
+    {/* <ThemeProvider> */}
       {children}
-    </ThemeProvider>
+    {/* </ThemeProvider> */}
+    </>
   );
 }
 

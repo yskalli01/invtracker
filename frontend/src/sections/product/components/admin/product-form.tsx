@@ -285,7 +285,7 @@ export function ProductForm({
         }
     };
     
-    const { values, setField, resetFields, setFieldsFromObject } = useFormFields<ProductProps>(initialValue);
+    const { values, setField, resetFields } = useFormFields<ProductProps>(initialValue);
     const handleCreateProduct = async () => {
         await createProduct(
           values,

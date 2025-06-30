@@ -24,7 +24,7 @@ export const _myAccount = {
 export const _user = {
   id : 34,
   name:'Youssef',
-  role : 'ADMIN', 
+  role : 'CLIENT', 
   email : 'ysk.',
   phone : '063598563',
   address : 'Casa',

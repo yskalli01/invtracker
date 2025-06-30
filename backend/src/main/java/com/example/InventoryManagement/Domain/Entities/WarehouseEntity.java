@@ -6,7 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
+@Audited
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,8 +26,9 @@ public class WarehouseEntity {
     private Integer capacity;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "warehouse")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<ProductEntity> products = new ArrayList<>();
-
 
     @Transient
     private Double utilisation;

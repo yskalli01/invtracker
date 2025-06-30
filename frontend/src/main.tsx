@@ -1,32 +1,47 @@
+import 'react-toastify/dist/ReactToastify.css';
+
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { ToastContainer } from 'react-toastify';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router';
 
 import App from './app';
-import { routesSection } from './routes/sections';
+import { AppRoutes, RoutesSelector, baseRoutes, protectedChildRoutes, routesSection } from './routes/sections';
 import { ErrorBoundary } from './routes/components';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { AuthProvider } from './context/auth-context';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from 'src/theme/theme-provider';
 // ----------------------------------------------------------------------
 
 const router = createBrowserRouter([
   {
     Component: () => (
-      <App>
-        <Outlet />
-        <ToastContainer
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-      </App>
+      <AuthProvider>
+        {/* <ThemeProvider> */}
+        <App>
+          <Outlet />
+          <ToastContainer
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
+        </App>
+        {/* </ThemeProvider> */}
+      </AuthProvider>
     ),
     errorElement: <ErrorBoundary />,
-    children: routesSection,
+    children: [
+      {
+        path: '/',
+        element: <RoutesSelector />,
+        children: protectedChildRoutes,
+      },
+      ...baseRoutes
+    ],
   },
 ]);
 
@@ -34,6 +49,32 @@ const root = createRoot(document.getElementById('root')!);
 
 root.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </ThemeProvider>
   </StrictMode>
 );
+
+
+
+// root.render(
+//   <StrictMode>
+//       <BrowserRouter>
+//       <AuthProvider>
+//           <App>
+//             <AppRoutes />
+//             <ToastContainer
+//               hideProgressBar={false}
+//               newestOnTop={false}
+//               closeOnClick
+//               pauseOnFocusLoss
+//               draggable
+//               pauseOnHover
+//               theme="colored"
+//             />
+//           </App>
+//         </AuthProvider>
+//       </BrowserRouter>
+//   </StrictMode>
+// );
+

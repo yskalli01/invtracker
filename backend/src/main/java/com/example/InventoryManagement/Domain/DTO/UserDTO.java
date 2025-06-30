@@ -20,4 +20,6 @@ public class UserDTO {
     private String phone;
     private String address;
     private String country;
+    private String password;
+    private String imagePath;
 }

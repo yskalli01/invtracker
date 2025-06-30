@@ -1,4 +1,4 @@
-import { LazyExoticComponent, lazy } from "react";
+import { JSX, LazyExoticComponent, lazy } from "react";
 import { WarehouseProps, warehouse } from "../warehouse/config";
 import { SupplierProps, supplier } from "../supplier/config";
 import { UserProps } from "../user/config";

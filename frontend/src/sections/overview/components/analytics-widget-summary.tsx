@@ -13,6 +13,7 @@ import { fNumber, fPercent, fShortenNumber } from 'src/utils/format-number';
 import { Iconify } from 'src/components/iconify';
 import { SvgColor } from 'src/components/svg-color';
 import { Chart, useChart } from 'src/components/chart';
+import { Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -75,7 +76,8 @@ export function AnalyticsWidgetSummary({
         alignItems: 'center',
       }}
     >
-      <Iconify width={20} icon={percent < 0 ? 'eva:trending-down-fill' : 'eva:trending-up-fill'} />
+      {percent == 0 ? (<Box sx={{ width: 15, height: 2, bgcolor: 'text.secondary', borderRadius: 2 }} />) : 
+      (<Iconify width={20} icon={percent < 0 ? 'eva:trending-down-fill' : 'eva:trending-up-fill'}/>)}
       <Box component="span" sx={{ typography: 'subtitle2' }}>
         {percent > 0 && '+'}
         {fPercent(percent)}

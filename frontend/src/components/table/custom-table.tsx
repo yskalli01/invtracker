@@ -53,6 +53,8 @@ export default function CustomTable({
     refreshToolbar();
   };
 
+  // console.log("Custom table rendered");
+
   return (
     <div style={containerSx}>
       <DataGrid

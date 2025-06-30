@@ -3,43 +3,6 @@ import { axios } from 'src/api';
 import { UserProps } from '../config';
 import { notify } from 'src/utils/toast-helper';
 
-
-// export function useClient() {
-//   const messages = {
-//     // createSuccess : 'Client created successfully',
-//     // updateSuccess : 'Clier updated successfully',
-//     deleteSuccess : 'The client has been deleted successfully',
-//     deleteAllSuccess : "Clients have been deleted successfully"
-//   }
-  
-//   const{
-//     elements : clients,
-//     setElements : setClients,
-//     deleteElement: deleteClient,
-//     deleteElements: deleteClients,
-//     message,
-//     setMessage
-//   } = useCRUD<UserProps>({basePath:'clients',messages});
-
-
-
-
-  
-
-//   return{
-//     clients,
-//     setClients,
-//     deleteClient,
-//     deleteClients,
-//     message,
-//     setMessage
-//   }
-// }
-
-
-
-
-
 export function useClient() {
   const [clients, setClients] = useState<UserProps[]>([]);
   const [loading,setLoading] = useState(true);

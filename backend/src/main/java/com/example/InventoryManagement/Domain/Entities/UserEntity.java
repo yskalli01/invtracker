@@ -16,7 +16,10 @@ public class UserEntity {
     private Long id;
     private String name;
     private String role;
+    @Column(unique = true)
     private String email;
+    private String password;
+    private String imagePath;
     private String phone;
     private String address;
     private String country;

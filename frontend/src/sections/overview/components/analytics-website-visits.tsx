@@ -6,11 +6,13 @@ import CardHeader from '@mui/material/CardHeader';
 import { useTheme, alpha as hexAlpha } from '@mui/material/styles';
 
 import { Chart, useChart } from 'src/components/chart';
+import { tooltip } from 'leaflet';
 
 // ----------------------------------------------------------------------
 
 type Props = CardProps & {
   title?: string;
+  tooltip ?: string
   subheader?: string;
   chart: {
     colors?: string[];
@@ -23,7 +25,7 @@ type Props = CardProps & {
   };
 };
 
-export function AnalyticsWebsiteVisits({ title, subheader, chart, sx, ...other }: Props) {
+export function AnalyticsWebsiteVisits({ title, subheader, chart, tooltip = "visits" , sx, ...other }: Props) {
   const theme = useTheme();
 
   const chartColors = chart.colors ?? [
@@ -36,7 +38,7 @@ export function AnalyticsWebsiteVisits({ title, subheader, chart, sx, ...other }
     stroke: { width: 2, colors: ['transparent'] },
     xaxis: { categories: chart.categories },
     legend: { show: true },
-    tooltip: { y: { formatter: (value: number) => `${value} visits` } },
+    tooltip: { y: { formatter: (value: number) => `${value} ${tooltip}` } },
     ...chart.options,
   });
 

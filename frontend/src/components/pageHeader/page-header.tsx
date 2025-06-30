@@ -13,6 +13,7 @@ type PageHeaderProps = {
 
 
 export function PageHeader({ title, buttonLabel, action }: PageHeaderProps) {
+  // console.log("Page header rendered");
   return (
     <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
 

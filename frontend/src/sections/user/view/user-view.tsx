@@ -1,8 +1,8 @@
 import { DashboardContent } from 'src/layouts/dashboard';
-import { PageHeader } from 'src/components/pageHeader';
+import {PageHeader}  from 'src/components/pageHeader';
 import { useClientContext } from '../context/useClientContext';
 import { Avatar, Box, Tooltip } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CustomTable from 'src/components/table/custom-table';
 import { UserActionCells } from '../components/user-action-cells';
@@ -12,16 +12,20 @@ export function UserView() {
 
   const {clients, deleteClients, loading} = useClientContext(); 
 
+  // console.log("User view re rendered");
+
   const renderProductCell = React.useCallback((params : any) => {
-    const { name } = params.row;
+    const { name, imagePath } = params.row;
+    const previewImage = useMemo(() => {
+      if (imagePath) return `http://localhost:8080/products/images${imagePath.startsWith("/") ? imagePath : "/" + imagePath}`;
+      return null;
+    },[])
     return (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         <Avatar
-          // src={
-          //   imagePath
-          //     ? `http://localhost:8080/products/images${imagePath.startsWith('/') ? imagePath : '/' + imagePath}`
-          //     : undefined
-          // }
+          src={
+            previewImage || undefined
+          }
           alt={name}
           sx={{ width: 28, height: 28 }}
         >
@@ -32,7 +36,7 @@ export function UserView() {
     );
   }, []);
   
-  const columns = [
+  const columns = useMemo(() => [
     { field: 'id', headerName: 'ID', minWidth: 40, flex: 0.3 },
     { field: 'name', headerName: 'User', minWidth: 80, flex: 1, sortable: false, filterable: true, renderCell: renderProductCell},
     { field: 'address', headerName: 'Address', minWidth: 80, flex: 1 },
@@ -56,7 +60,7 @@ export function UserView() {
         <UserActionCells rowId={params.id} />
       ),
     },
-  ]
+  ],[])
 
 
   return (

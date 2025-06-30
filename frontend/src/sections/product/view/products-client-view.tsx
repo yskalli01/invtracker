@@ -54,6 +54,8 @@ const GENDER_OPTIONS = [
 
 export default function ProductClientView() {
 
+    // console.log("Product client rendered");
+
     const {products,cartItems} = useProductClientContext();
 
     const [sortBy, setSortBy] = useState('featured');

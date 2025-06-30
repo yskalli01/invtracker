@@ -17,6 +17,7 @@ import { Logo } from 'src/components/logo';
 import type { NavItem } from '../nav-config-dashboard';
 import { WorkspacesPopover } from '../components/workspaces-popover';
 import type { WorkspacesPopoverProps } from '../components/workspaces-popover';
+import { useAuth } from 'src/context/auth-context';
 
 // ----------------------------------------------------------------------
 
@@ -105,6 +106,7 @@ export function NavMobile({
 // ----------------------------------------------------------------------
 
 export function NavContent({ data, slots, workspaces, sx }: NavContentProps) {
+  const {user} = useAuth();
   const pathname = usePathname();
 
   return (
@@ -124,7 +126,9 @@ export function NavContent({ data, slots, workspaces, sx }: NavContentProps) {
           flexDirection: 'column',
         }}
       >
-        {data.map((item) => {
+        {data
+        .filter(item => item.roles.includes(user?.role as string))
+        .map((item) => {
           const isActived = item.path === pathname;
 
           return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Profiler } from 'react';
 import { PageHeader } from 'src/components/pageHeader';
 import { CustomModal, useModal } from 'src/components/modal';
 import { useFormFields } from 'src/hooks/useFormFields';
@@ -13,10 +13,88 @@ import { axios } from 'src/api/axios';
 // ----------------------------------------------------------------------
 
 
+// For the definition of columns 
+const renderProductCell = (params : any) => {
+  const { imagePath, name } = params.row;
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Avatar
+        src={
+          imagePath
+            ? `http://localhost:8080/products/images${imagePath.startsWith('/') ? imagePath : '/' + imagePath}`
+            : undefined
+        }
+        alt={name}
+        sx={{ width: 28, height: 28 }}
+      >
+        {!imagePath && name?.[0]?.toUpperCase()}
+      </Avatar>
+      {name}
+    </Box>
+  );
+};
 
-
+const columns = [
+  { field: 'id', headerName: 'ID', minWidth: 40, flex: 0.3 },
+  { field: 'name', headerName: 'Product', minWidth: 150, flex: 1.5, sortable: true, filterable: true, renderCell: renderProductCell},
+  { field: 'unitPrice', headerName: 'Price', minWidth: 80, type: 'number', flex: 0.7 },
+  { field: 'purchasePrice', headerName: 'Cost', minWidth: 80, type: 'number', flex: 0.7 },
+  { field: 'quantity', headerName: 'Quantity', minWidth: 100, type: 'number', flex: 0.7 },
+  { field: 'category', headerName: 'Category', minWidth: 120, flex: 1 },
+  { field: 'description', headerName: 'Description', minWidth: 200, flex: 2, hide: true },
+  { field: 'warehouse', headerName: 'Warehouse', minWidth: 150, flex: 2, valueGetter: (params: any) => params?.name || ''},
+  { field: 'supplier', headerName: 'Supplier', minWidth: 150, flex: 1, valueGetter: (params: any) => params?.name || ''},
+  {
+    field: 'averageRating',
+    headerName: 'Avg. Rating',
+    minWidth: 120,
+    flex: 2,
+    sortable: true,
+    filterable: true,
+    renderCell: (params: any) => {
+      return (
+        <Rating
+          name={`avg-rating-${params.row.id}`}
+          value={params.row.averageRating}
+          precision={0.1}
+          readOnly
+          size="small"
+        />
+      );
+    }
+  },
+  {
+    field: 'actions',
+    renderHeader: () => (
+      <Tooltip title="Actions">
+        <SettingsIcon
+          fontSize="small"
+          style={{ display: 'block', margin: 'auto', cursor: 'default' }}
+        />
+      </Tooltip>
+    ),
+    minWidth: 60,
+    flex: 0.3,
+    sortable: false,
+    filterable: false,
+    hide: true,
+    renderCell: (params: any) => (
+      <ProductActionCells rowId={params.id} />
+    ),
+  },
+];
 
 export default function ProductAdminView() {
+  // useEffect(()=>{
+  //   const start = performance.now();
+  //   return(()=>{
+  //     const end = performance.now();
+  //     console.log(`App took ${end - start}ms`)
+  //   })
+  // },[])
+  // const start = performance.now();
+  // console.log("Product admin rendered");
+
 
   // MODAL => modal for creating/updating product
   const modal = useModal();
@@ -30,85 +108,19 @@ export default function ProductAdminView() {
   };
 
 
-
-
-  
-  // For the definition of columns 
-  const renderProductCell = React.useCallback((params : any) => {
-    const { imagePath, name } = params.row;
-    return (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Avatar
-          src={
-            imagePath
-              ? `http://localhost:8080/products/images${imagePath.startsWith('/') ? imagePath : '/' + imagePath}`
-              : undefined
-          }
-          alt={name}
-          sx={{ width: 28, height: 28 }}
-        >
-          {!imagePath && name?.[0]?.toUpperCase()}
-        </Avatar>
-        {name}
-      </Box>
-    );
-  }, []);
+  const onRender = (id,phase,actualDuration,baseDuration) => {
+    console.log(`[${id}] Rendered in ${actualDuration}ms (${phase})`)
+  }
 
   
 
-  const columns = React.useMemo(() => [
-    { field: 'id', headerName: 'ID', minWidth: 40, flex: 0.3 },
-    { field: 'name', headerName: 'Product', minWidth: 150, flex: 1.5, sortable: true, filterable: true, renderCell: renderProductCell},
-    { field: 'unitPrice', headerName: 'Price', minWidth: 80, type: 'number', flex: 0.7 },
-    { field: 'purchasePrice', headerName: 'Cost', minWidth: 80, type: 'number', flex: 0.7 },
-    { field: 'quantity', headerName: 'Quantity', minWidth: 100, type: 'number', flex: 0.7 },
-    { field: 'category', headerName: 'Category', minWidth: 120, flex: 1 },
-    { field: 'description', headerName: 'Description', minWidth: 200, flex: 2, hide: true },
-    { field: 'warehouse', headerName: 'Warehouse', minWidth: 150, flex: 2, valueGetter: (params: any) => params?.name || ''},
-    { field: 'supplier', headerName: 'Supplier', minWidth: 150, flex: 1, valueGetter: (params: any) => params?.name || ''},
-    {
-      field: 'averageRating',
-      headerName: 'Avg. Rating',
-      minWidth: 120,
-      flex: 2,
-      sortable: true,
-      filterable: true,
-      renderCell: (params: any) => {
-        return (
-          <Rating
-            name={`avg-rating-${params.row.id}`}
-            value={params.row.averageRating}
-            precision={0.1}
-            readOnly
-            size="small"
-          />
-        );
-      }
-    },
-    {
-      field: 'actions',
-      renderHeader: () => (
-        <Tooltip title="Actions">
-          <SettingsIcon
-            fontSize="small"
-            style={{ display: 'block', margin: 'auto', cursor: 'default' }}
-          />
-        </Tooltip>
-      ),
-      minWidth: 60,
-      flex: 0.3,
-      sortable: false,
-      filterable: false,
-      hide: true,
-      renderCell: (params: any) => (
-        <ProductActionCells rowId={params.id} />
-      ),
-    },
-  ], [renderProductCell]);
+
+  // const end = performance.now();
+  // console.log(`Admin view took ${end - start}ms`)
   
   return (
-    <>
-      
+    // <Profiler id='ProductAdminView' onRender={onRender}>
+      <>
       <PageHeader title='Products' buttonLabel='Add products' action={modal.handleOpen}/>      
 
       <CustomTable
@@ -137,7 +149,8 @@ export default function ProductAdminView() {
           initialValue={product}
           buttonText={"Create product"}
         />
-      </CustomModal>      
-    </>
+      </CustomModal>   
+      </>   
+    // </Profiler>
   );
 }
