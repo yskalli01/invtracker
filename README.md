@@ -33,6 +33,21 @@ The Inventory Management System, Invtracker, offers a range of endpoints that en
 ![maven](https://github.com/user-attachments/assets/6957143d-14b5-49eb-97ef-6c660a4fad86)
 
 
+## 🔧 Installation and setup
+1. Clone the repository `git clone https://github.com/yskalli01/invtracker.git`
+2. Navigate to the project folder `cd invtracker`
+3. Then navigate to the backend folder `cd backend`
+4. Run the postgresql container with docker-compose using this command `docker-compose up`
+5. Run the backend application `mvn spring-boot:run`
+6. Open a new terminal tab and navigate to the frontend folder `cd frontend`
+7. Install frontend dependencies `npm i`
+8. Run the frontend application `npm run dev`
+9. Set up Syncfusion calendar(optional)
+9.1. Generate a free Syncfusion API key
+9.2. Create a .env file inside the frontend folder and add: `VITE_SYNCFUSION_KEY=api_key`
+
+
+
 ## 📸 Screenshots
 ![project](https://github.com/user-attachments/assets/0e1ea28d-d956-40cf-930f-4e7131078d21)
 
