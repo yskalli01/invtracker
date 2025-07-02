@@ -45,7 +45,7 @@ The Inventory Management System, Invtracker, offers a range of endpoints that en
 9. Set up Syncfusion calendar (optional):  
    9.1. Generate a free Syncfusion API key  
    9.2. Create a `.env` file inside the `frontend` folder and add:  
-        ```env
+        ```
         VITE_SYNCFUSION_KEY=your_api_key_here
         ```
 
