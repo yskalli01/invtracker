@@ -42,9 +42,12 @@ The Inventory Management System, Invtracker, offers a range of endpoints that en
 6. Open a new terminal tab and navigate to the frontend folder `cd frontend`
 7. Install frontend dependencies `npm i`
 8. Run the frontend application `npm run dev`
-9. Set up Syncfusion calendar(optional)
-9.1. Generate a free Syncfusion API key
-9.2. Create a .env file inside the frontend folder and add: `VITE_SYNCFUSION_KEY=api_key`
+9. Set up Syncfusion calendar (optional):  
+   9.1. Generate a free Syncfusion API key  
+   9.2. Create a `.env` file inside the `frontend` folder and add:  
+        ```env
+        VITE_SYNCFUSION_KEY=your_api_key_here
+        ```
 
 
 
