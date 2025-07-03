@@ -122,6 +122,8 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderEntity,Long> imple
         orderRepository.updateOrderStatus(id,status);
     }
 
+
+    // Admin
     @Override
     public Map<String,Double> getMonthlyOverallEarning() {
         List<OrderEntity> orders = orderRepository.findAll();
@@ -135,9 +137,10 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderEntity,Long> imple
             LocalDateTime endOfMonth = yearMonth.atEndOfMonth().atTime(23, 59, 59);
             String monthAbreviation = yearMonth.format(DateTimeFormatter.ofPattern("MMM",Locale.ENGLISH));
 
+            
 
             double sum = orders.stream()
-                        .filter(order -> order.getStatus() == "Confirmed" && 
+                        .filter(order -> order.getStatus().equals("Confirmed") && 
                         (order.getOrderDate().equals(startOfMonth) ||
                         order.getOrderDate().equals(endOfMonth) ||
                         (order.getOrderDate().isAfter(startOfMonth) && order.getOrderDate().isBefore(endOfMonth)) 
@@ -148,6 +151,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderEntity,Long> imple
                             (Math.abs(orderItem.getProduct().getPurchasePrice() - orderItem.getProduct().getUnitPrice())) * orderItem.getQuantity() : 0
                         )
                         .sum();
+
             
             
             monthlyOverallEarning.put(monthAbreviation,sum);
@@ -156,7 +160,6 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderEntity,Long> imple
 
         return monthlyOverallEarning;
     }
-
 
     @Override
     public Map<String,Long> getMonthlyOrders(){
@@ -185,20 +188,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderEntity,Long> imple
     }
 
 
-    @Override
-    public Map<String,Long> getOrdersByCountry(){
-        List<OrderEntity> orders = orderRepository.findAll();
-        Map<String,Long> ordersCountByCountry = new HashMap<>();
-        
-        for(OrderEntity order : orders){
-            String country = order.getUser().getCountry();
-            ordersCountByCountry.put(country,ordersCountByCountry.getOrDefault(country,(long) 0) + 1);
-        }
-        
-        return ordersCountByCountry;
-    }
-
-
+    // Client
     @Override
     public Map<String,Long> getMonthlyOrdersByUserId(Long id,String status){
         List<OrderEntity> orders = orderRepository.getOrdersByUserId(id);
@@ -212,28 +202,27 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderEntity,Long> imple
 
 
             long count = orders.stream()
-                        .filter(order -> !status.equals("All") ? 
-                            (order.getStatus().equals(status) && 
-                                (   order.getOrderDate().equals(startOfMonth) ||
-                                    order.getOrderDate().equals(endOfMonth) ||
-                                    (order.getOrderDate().isAfter(startOfMonth) && order.getOrderDate().isBefore(endOfMonth)) 
-                                )
-                            ) : 
+                    .filter(order -> !status.equals("All") ?
+                            (order.getStatus().equals(status) &&
+                                    (   order.getOrderDate().equals(startOfMonth) ||
+                                            order.getOrderDate().equals(endOfMonth) ||
+                                            (order.getOrderDate().isAfter(startOfMonth) && order.getOrderDate().isBefore(endOfMonth))
+                                    )
+                            ) :
                             (
-                                order.getOrderDate().equals(startOfMonth) ||
-                                order.getOrderDate().equals(endOfMonth) ||
-                                (order.getOrderDate().isAfter(startOfMonth) && order.getOrderDate().isBefore(endOfMonth)) 
+                                    order.getOrderDate().equals(startOfMonth) ||
+                                            order.getOrderDate().equals(endOfMonth) ||
+                                            (order.getOrderDate().isAfter(startOfMonth) && order.getOrderDate().isBefore(endOfMonth))
                             )
-                        )
-                        .count();
-            
-            
+                    )
+                    .count();
+
+
             monthlyOrders.put(monthAbreviation,count);
         }
 
         return monthlyOrders;
     }
-
 
     @Override
     public Map<String,Double> getMonthlyOrdersCostByUserId(Long id){
@@ -248,22 +237,36 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderEntity,Long> imple
 
 
             Double count = orders.stream()
-                        .filter(order -> order.getStatus().equals("Confirmed") &&
+                    .filter(order -> order.getStatus().equals("Confirmed") &&
                             (
-                                order.getOrderDate().equals(startOfMonth) ||
-                                order.getOrderDate().equals(endOfMonth) ||
-                                (order.getOrderDate().isAfter(startOfMonth) && order.getOrderDate().isBefore(endOfMonth)) 
+                                    order.getOrderDate().equals(startOfMonth) ||
+                                            order.getOrderDate().equals(endOfMonth) ||
+                                            (order.getOrderDate().isAfter(startOfMonth) && order.getOrderDate().isBefore(endOfMonth))
                             )
-                        )
-                        .flatMap(order -> order.getOrderItems().stream())
-                        .mapToDouble(orderItem -> orderItem.getProduct().getUnitPrice())
-                        .sum();
-            
-            
+                    )
+                    .flatMap(order -> order.getOrderItems().stream())
+                    .mapToDouble(orderItem -> orderItem.getProduct().getUnitPrice())
+                    .sum();
+
+
             monthlyOrders.put(monthAbreviation,count);
         }
 
         return monthlyOrders;
+    }
+
+
+    @Override
+    public Map<String,Long> getOrdersByCountry(){
+        List<OrderEntity> orders = orderRepository.findAll();
+        Map<String,Long> ordersCountByCountry = new HashMap<>();
+        
+        for(OrderEntity order : orders){
+            String country = order.getUser().getCountry();
+            ordersCountByCountry.put(country,ordersCountByCountry.getOrDefault(country,(long) 0) + 1);
+        }
+        
+        return ordersCountByCountry;
     }
 
     @Override

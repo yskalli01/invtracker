@@ -141,18 +141,6 @@ public class ProductServiceImpl extends GenericServiceImpl<ProductEntity,Long> i
         return null;
     }
 
-
-    // @Override
-    // public int findByQuantityBetweenFlexible(Integer min,Integer max){
-    //     return productRepository.findByQuantityBetweenFlexible(min,max);
-    // }
-
-
-    // @Override
-    // public Double getPriceOfAllProducts(){
-    //     return productRepository.getPriceOfAllProducts();
-    // }
-
     @Override
     public Map<String, Double> getMonthlyTotalPriceOfAllProducts() {
         AuditReader auditReader = AuditReaderFactory.get(entityManager);
@@ -220,7 +208,6 @@ public class ProductServiceImpl extends GenericServiceImpl<ProductEntity,Long> i
 
         return monthlyTotals;
     }
-
 
 
     @Override

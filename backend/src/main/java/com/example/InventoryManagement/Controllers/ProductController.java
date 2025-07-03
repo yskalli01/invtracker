@@ -196,27 +196,6 @@ public class ProductController extends GenericController<ProductEntity, ProductD
         }
     }
 
-    // @GetMapping("/quantity")
-    // public ResponseEntity<?> findByQuantityBetweenFlexible(
-    //         @RequestParam(required = false, defaultValue = "0") Integer min,
-    //         @RequestParam(required = false) Integer max
-    // ) {
-    //     Integer productCount = productService.findByQuantityBetweenFlexible(min, max);
-    //     return ResponseEntity.ok(productCount);
-    // }
-
-
-//     @GetMapping("/revision/{id}")
-//     public ResponseEntity<?> getProductRevisions(@PathVariable("id") Long productId){
-//         return ResponseEntity.ok(productService.getProductRevisions(productId));
-//     }
-
-//    @GetMapping("/revision/{date}/{id}")
-//    public ResponseEntity<?> getProductRevisions(@PathVariable("id") Long productId, @PathVariable("date") LocalDate date){
-//        return ResponseEntity.ok(productService.getProductRevisionForWholeDate(productId,date));
-//    }
-
-
    @GetMapping("/values")
    public ResponseEntity<?> getMonthlyTotalPriceOfAllProducts() {
        return ResponseEntity.ok(productService.getMonthlyTotalPriceOfAllProducts());

@@ -35,7 +35,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   );
 
   const router = useRouter();
-
   
   const login = useCallback(async (data: LoginProps) => {
     try {

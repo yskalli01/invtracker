@@ -42,12 +42,8 @@ public class WarehouseController extends GenericController<WarehouseEntity, Ware
             for(ProductEntity product : warehouse.getProducts()){
                 productsQuantity += product.getQuantity();
             }
-            // System.out.println("The warehouse " + warehouse.getName() + " and capacity is " + warehouse.getCapacity());
-            // System.out.println("The productQuantity is " + productsQuantity);
             
             warehouse.setUtilisation(capacity - productsQuantity > 0 ? (double) productsQuantity/capacity : 0.0);
-
-            // System.out.println("The utilisation is " + warehouse.getUtilisation());
             WarehouseDTO warehouseDTO = mapper.map(warehouse,WarehouseDTO.class);
             warehousesDTO.add(warehouseDTO);
         }

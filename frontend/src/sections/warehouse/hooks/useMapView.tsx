@@ -1,9 +1,7 @@
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
-import { useEffect, useState } from "react";
+import React , { useEffect, useState } from "react";
 import { Marker, useMap, useMapEvents } from "react-leaflet";
 import { notify } from "src/utils/toast-helper";
-
-
 
 
 
@@ -67,15 +65,19 @@ export function useMapView(){
   }
 
   async function fetchLocationName(lat: number, lng: number): Promise<string> {
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
-    );
-    if (!response.ok) {
+    try{
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse.php?format=jsonv2&lat=${lat}&lon=${lng}`
+      );
+      const data = await response.json();
+      return data.display.name;
+    }
+    catch(error){
+      console.error(error);
       notify("Failed to fetch location name" , "error");
       throw new Error("Failed to fetch location name");
+      return "";
     }
-    const data = await response.json();
-    return data.display_name || "";
   }
 
   return {

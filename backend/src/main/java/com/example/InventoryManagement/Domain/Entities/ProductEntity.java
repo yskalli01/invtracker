@@ -30,12 +30,12 @@ public class ProductEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @NotAudited
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_id")
     private WarehouseEntity warehouse;
 
-    @NotAudited
+    
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "supplier_id")
     private SupplierEntity supplier;

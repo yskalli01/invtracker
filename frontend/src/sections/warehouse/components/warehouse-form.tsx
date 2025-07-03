@@ -8,9 +8,6 @@ import { useWarehouseContext } from "../context/useWarehouseContext";
 import { useFormFields } from "src/hooks/useFormFields";
 
 interface WarehouseFormProps {
-  // clickFunction: () => void;
-  // values : WarehouseProps,
-  // setField : <K extends keyof WarehouseProps>(field : K, value : WarehouseProps[K]) => void;
   buttonText: string;
   initialValue : WarehouseProps;
   operation : string
@@ -20,19 +17,12 @@ interface WarehouseFormProps {
 
 
 export const WarehouseForm = React.memo(function WarehouseForm({
-  // clickFunction,
-  // values,
-  // setField,
   buttonText,
   operation,
   initialValue
 }: WarehouseFormProps) {
 
-
-
   const {createWarehouse, modifyWarehouse} = useWarehouseContext();
-
-
   const{ values,setField, resetFields } = useFormFields<WarehouseProps>(initialValue);
   
 
@@ -78,6 +68,7 @@ export const WarehouseForm = React.memo(function WarehouseForm({
     const formattedCoords = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
     
     setField('location',formattedCoords);
+    console.log("Why")
   
     fetchLocationName(lat, lng)
       .then((name) => {
@@ -86,7 +77,7 @@ export const WarehouseForm = React.memo(function WarehouseForm({
       .catch(() => {
         setField('name',formattedCoords)
       });
-  }, [selectedLocation, values]);
+  }, [selectedLocation]);
     
   
 

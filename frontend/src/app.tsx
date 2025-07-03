@@ -15,19 +15,12 @@ type AppProps = {
 export default function App({ children }: AppProps) {
   useScrollToTop();
 
-  // useEffect(()=>{
-  //   const start = performance.now();
-  //   return(()=>{
-  //     const end = performance.now();
-  //     console.log(`App took ${end - start}ms`)
-  //   })
-  // },[])
 
   return (
     <>
-    {/* <ThemeProvider> */}
+    <ThemeProvider>
       {children}
-    {/* </ThemeProvider> */}
+    </ThemeProvider>
     </>
   );
 }

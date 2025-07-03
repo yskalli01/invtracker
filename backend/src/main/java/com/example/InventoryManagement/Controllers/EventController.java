@@ -36,8 +36,10 @@ public class EventController {
 
     @PostMapping("/crudActions")
     public ResponseEntity<List<EventEntity>> crudActions(@RequestBody Object model) {
-        System.out.println("Creation " + model);
+        System.out.println("Creation " + model + "\n");
         Map<String, List<Map<String, Object>>> data = (Map<String, List<Map<String, Object>>>) model;
+
+        // System.out.println("Data " + data);
         List<EventEntity> events = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -46,15 +48,16 @@ public class EventController {
 
             for (Map<String, Object> actionItem : actionData) {
                 try {
+                    System.out.println(actionItem + "\n");
                     EventEntity eventEntity = mapper.convertValue(actionItem, EventEntity.class);
                     if ("added".equals(action)) {
-                        events.add(eventService.insert(eventEntity));
+                        EventEntity resultEvent = eventService.insert(eventEntity);
+                        events.add(resultEvent);
                     } else if ("changed".equals(action)) {
                         events.add(eventService.update(eventEntity));
                     } else if ("deleted".equals(action)) {
                         events.add(eventService.deleteById(eventEntity.getId()));
                     }
-
                     return ResponseEntity.ok(events);
 
                 } catch (Exception e) {

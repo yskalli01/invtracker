@@ -12,13 +12,14 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl extends GenericServiceImpl<UserEntity,Long> implements UserService {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    public UserServiceImpl(UserRepository userRepository){
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         super(userRepository);
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -44,12 +45,10 @@ public class UserServiceImpl extends GenericServiceImpl<UserEntity,Long> impleme
             String currentEncodedPassword = existingUser.getPassword();
             String incomingPassword = element.getPassword();
     
-            // If the incoming password equals the existing encoded one, skip encoding
             if (incomingPassword.equals(currentEncodedPassword)) {
                 // System.out.println("Password unchanged; skipping encoding");
                 element.setPassword(currentEncodedPassword);
             } else {
-                // It's a new password; encode it
                 // System.out.println("New password detected; encoding");
                 element.setPassword(passwordEncoder.encode(incomingPassword));
             }
@@ -69,8 +68,6 @@ public class UserServiceImpl extends GenericServiceImpl<UserEntity,Long> impleme
         // System.out.println(email);
         UserEntity user = userRepository.findByEmail(email)
         .orElseThrow(() -> new RuntimeException("User not found"));
-        // System.out.println("The password " + rawPassword);
-        // System.out.println("The user " + user);
         
         boolean passwordMatches = passwordEncoder.matches(rawPassword, user.getPassword());
         if (!passwordMatches) {

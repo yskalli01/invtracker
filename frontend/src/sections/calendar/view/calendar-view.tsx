@@ -16,8 +16,7 @@ import { registerLicense } from "@syncfusion/ej2-base";
 import { DataManager,  UrlAdaptor, Query, DataResult } from '@syncfusion/ej2-data';
 import { Box } from "@mui/material";
 
-
-registerLicense(process.env.SYNCFUSION_KEY || '');
+registerLicense('Ngo9BigBOggjHTQxAR8/V1NNaF1cWWhOYVJpR2Nbek5zflRDal9SVAciSV9jS3tTcEdnWXxfdXdWRmhbUU90Vg==');
 
 class CustomUrlAdaptor extends UrlAdaptor {
     // Override processResponse to convert timestamps to Date for GET requests
@@ -29,8 +28,10 @@ class CustomUrlAdaptor extends UrlAdaptor {
       requestOptions?: { url?: string }
     ): DataResult | Object[] {
       if (requestOptions?.url === 'http://localhost:8080/events/getData') {
+        // console.log("RequestOptions");
         let data = super.processResponse(response, request, query, xhr, requestOptions);
-  
+        console.log("RequestOptions ", data);
+
         if (Array.isArray(data)) {
           data = data.map(event => ({
             ...event,
@@ -39,7 +40,8 @@ class CustomUrlAdaptor extends UrlAdaptor {
             isallday: event.isallday ?? false,
           }));
         }
-  
+        
+        
         return data;
       }
   
@@ -55,8 +57,11 @@ class CustomUrlAdaptor extends UrlAdaptor {
       changes?: Object,
       e?: Object
     ): string {
+      console.log("Action ",action)
       if (action === 'insert' || action === 'update') {
         const events = Array.isArray(data) ? data : [data];
+        console.log("Events ",events);
+        
         events.forEach(event => {
           if (event && event.hasOwnProperty('starttime') && event.starttime instanceof Date) {
             (event as any).starttime = (event as any).starttime.getTime();

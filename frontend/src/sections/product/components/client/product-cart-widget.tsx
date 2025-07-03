@@ -10,6 +10,8 @@ import { _user, _users } from 'src/_mock';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { ProductRatingProps } from '../../config';
+import { useAuth } from 'src/context/auth-context';
+import { UserProps } from 'src/sections/user/config';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +21,7 @@ type CartIconProps = BoxProps & {
 
 export function CartIcon({ totalItems, sx, ...other }: CartIconProps) {
   const modal = useModal();
-
+  const {user} = useAuth();
   const ratingModal = useModal();
 
   const [rating, setRating] = useState<number | null>(null);
@@ -37,7 +39,7 @@ export function CartIcon({ totalItems, sx, ...other }: CartIconProps) {
         const ratingData: ProductRatingProps = {
           ratingValue : rating,
           comment,
-          user:_user,
+          user: user as UserProps,
           product: item.product
         };
   
@@ -67,7 +69,7 @@ export function CartIcon({ totalItems, sx, ...other }: CartIconProps) {
   const handleOrderItems = async () => {
     try {
       await orderItems({
-        user: _user,
+        user: user as UserProps,
         orderItems: cartItems,
       });
   

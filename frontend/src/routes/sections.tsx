@@ -44,6 +44,7 @@ const renderFallback = () => (
 
 export function AppRoutes() {
   const { isAuthenticated } = useAuth();
+  // console.log(isAuthenticated);
 
   const baseRoutes = [
     { path: '404', element: <Page404 /> },
@@ -79,7 +80,7 @@ export function AppRoutes() {
         </DashboardLayout>
       ),
       children: [
-        { index: true, path: '/dashboard', element: <DashboardPage /> },
+        { index: true, path: '/', element: <DashboardPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'warehouses', element: <WarehousePage /> },
@@ -94,74 +95,72 @@ export function AppRoutes() {
 
   const routes = isAuthenticated ? [...baseRoutes, ...appRoutes] : [...baseRoutes, ...authRoutes];
   const element = useRoutes(routes);
-
   return element;
 }
 
+// const HomeRoute = () => {
+//   const { isAuthenticated } = useAuth();
 
-const HomeRoute = () => {
-  const { isAuthenticated } = useAuth();
+//   // if (loading) return renderFallback();
 
-  // if (loading) return renderFallback();
-
-  return isAuthenticated ? (
-    <DashboardLayout>
-      <Suspense fallback={renderFallback()}>
-        <Outlet />
-      </Suspense>
-    </DashboardLayout>
-  ) : (
-    <AuthLayout>
-      <SignInPage />
-    </AuthLayout>
-  );
-};
-
+//   return isAuthenticated ? (
+//     <DashboardLayout>
+//       <Suspense fallback={renderFallback()}>
+//         <Outlet />
+//       </Suspense>
+//     </DashboardLayout>
+//   ) : (
+//     <AuthLayout>
+//       <SignInPage />
+//     </AuthLayout>
+//   );
+// };
 
 
-export const routesSection: RouteObject[] = [
-  {
-    path: '/',
-    element: <HomeRoute />,
-    children: [
-      { index: true, element: <DashboardPage /> },
-      { path: 'user', element: <UserPage /> },
-      { path: 'products', element: <ProductsPage /> },
-      { path: 'warehouses', element: <WarehousePage /> },
-      { path: 'suppliers', element: <SupplierPage /> },
-      { path: 'orders', element: <OrdersPage /> },
-      { path: 'profile', element: <ProfilePage /> },
-      { path: 'calendar', element: <CalendarPage /> },
-      { path: 'blog', element: <BlogPage /> },
-    ],
-  },
+
+// export const routesSection: RouteObject[] = [
+//   {
+//     path: '/',
+//     element: <HomeRoute />,
+//     children: [
+//       { index: true, element: <DashboardPage /> },
+//       { path: 'user', element: <UserPage /> },
+//       { path: 'products', element: <ProductsPage /> },
+//       { path: 'warehouses', element: <WarehousePage /> },
+//       { path: 'suppliers', element: <SupplierPage /> },
+//       { path: 'orders', element: <OrdersPage /> },
+//       { path: 'profile', element: <ProfilePage /> },
+//       { path: 'calendar', element: <CalendarPage /> },
+//       { path: 'blog', element: <BlogPage /> },
+//     ],
+//   },
   
-  // {
-  //   path: '/',
-  //   element: (
-  //     <AuthLayout>
-  //       <SignInPage />
-  //     </AuthLayout>
-  //   ),
-  // },
-  {
-    path: 'register',
-    element: (
-      <AuthLayout>
-        <RegisterPage />
-      </AuthLayout>
-    ),
-  },
-  {
-    path: '404',
-    element: <Page404 />,
-  },
-  { path: '*', element: <Page404 /> },
-];
+//   // {
+//   //   path: '/',
+//   //   element: (
+//   //     <AuthLayout>
+//   //       <SignInPage />
+//   //     </AuthLayout>
+//   //   ),
+//   // },
+//   {
+//     path: 'register',
+//     element: (
+//       <AuthLayout>
+//         <RegisterPage />
+//       </AuthLayout>
+//     ),
+//   },
+//   {
+//     path: '404',
+//     element: <Page404 />,
+//   },
+//   { path: '*', element: <Page404 /> },
+// ];
 
 
 export function RoutesSelector() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated,user } = useAuth();
   const location = useLocation();
 
   // if (loading) return renderFallback();
@@ -219,4 +218,9 @@ export const baseRoutes = [
     element: <Page404 />,
   },
   { path: '*', element: <Page404 /> },
+
+  { path:'/register', element: 
+    <AuthLayout>
+    <RegisterPage />
+    </AuthLayout>}
 ];
